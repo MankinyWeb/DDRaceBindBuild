@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript">
+	var bind = "bind \"~\"";
+	$(document).ready(function(){
+  		$("h1").fadeIn("show");
+		$("h3").fadeIn("show");
+		$("h4").fadeIn("show");
+  	});
+	function add(nedadd,iskey){
+		if(iskey){
+			var data = document.getElementById("showBind").innerHTML;
+			var last = data.slice(4);
+			bind = "bind "+nedadd+last;
+			document.getElementById("showBind").innerHTML = bind;
+		}else{
+		var data = document.getElementById("showBind").innerHTML;
+		var pos = data.indexOf("~");
+		if(pos == -1){
+			var pos = data.indexOf(";");
+		}
+		var first = data.slice(0,pos);
+		var last = data.slice(pos+1);
+		bind = first + nedadd + last;
+		document.getElementById("showBind").innerHTML = bind;
+		}
+	}
+	function allowDrop(ev){
+		ev.preventDefault();
+	}
+	var needadd;
+	function drag(ev){
+		ev.dataTransfer.setData("Text",ev.target.id);
+		needadd = ev.target.id;
+	}
+	nextTog = true;
+	function drop(ev){
+		ev.preventDefault();
+		var data = needadd;
+		var iskey = false;
+		var isfast = false;
+		if(data == "key"){
+			data = prompt("输入要触发的键");
+			iskey = true;
+		}
+		if(data == "kaj"){
+			data = "cl_dummy_resetonswitch "+prompt("输入卡键的值（0为不卡键，1为本体卡键，2为全部卡键）");
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
+		if(data == "tog"){
+			data = "+toggle ~ "+prompt("第1个参数") + " " + prompt("第2个参数") + ";";
+			nextTog = false;
+		}
+		if(data == "emo"){
+			data = "emote "+prompt("输入表情编号（编号请查看https://wiki.ddnet.org/images/a/ae/Emotes.png?20211006060742）");
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
+		if(data == "zfz"){
+			data = "cl_show_hook_coll_own "+prompt("输入值（2为开启");
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
+		if(data == "auto"){
+			data = prompt("自定义:");
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
+		if(data == "df"){
+			bind = "bind " + prompt("输入DF按键") + " \"bind mouse1 \\\" +fire;+toggle cl_dummy_hammer 1 0\\\"\""
+			document.getElementById("showBind").innerHTML = bind;
+			isfast = true;
+			nextTog = true;
+		}
+		if(data == "hdf"){
+			bind = "bind " + prompt("输入HDF按键") + " \"bind mouse1 \\\" +toggle cl_dummy_hammer 1 0\\\"\""
+			document.getElementById("showBind").innerHTML = bind;
+			isfast = true;
+			nextTog = true;
+		}
+		if(data == "cpec"){
+			bind = "bind " + prompt("输入按键") + " say /spec"
+			document.getElementById("showBind").innerHTML = bind;
+			isfast = true;
+			nextTog = true;
+		}
+		//alert(ev.dataTransfer.getData("Text"));
+		if(isfast == false)add(data,iskey);
+	}
+       	
+    </script>
+	<style>#box {width:70px;height:50px;padding:10px;border:3px solid #aaaaaa;margin:10px;float:left;}</style>
+</head>
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
+<body style="background-color:#d0e4fe;">
+    <h1 style="display:none;color: orange;text-align: center;">Bind Builder for DDRaceNetWork.</h1>
+	<h3 style="display:none;color: orange;text-align: center;">Manki Studio.</h3>
+	<div ondrop="drop(event)" ondragover="allowDrop(event)">
+		<h4 id="showBind" style="color: red;text-align: center;">bind "~"</h4>
+	</div>
+	<div id="box">
+		<p id="key" draggable="true" ondragstart="drag(event)">触发按键</p>
+	</div>
+	<div id="box">
+		<p id="kaj" draggable="true" ondragstart="drag(event)">分身卡键</p>
+	</div>
+	<div id="box">
+		<p id="emo" draggable="true" ondragstart="drag(event)">发送表情</p>
+	</div>
+	<div id="box">
+		<p id="zfz" draggable="true" ondragstart="drag(event)">显示自己的辅助线</p>
+	</div>
+	<div id="box">
+		<p id="tog" draggable="true" ondragstart="drag(event)">切换参数值</p>
+	</div>
+	
+	<div id="box">
+		<p id="auto" draggable="true" ondragstart="drag(event)">自定义添加</p>
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<h3 style="display:none;color: orange;text-align: center;">快捷Bind（会覆盖当前Bind）</h3>
+	<br />
+	<br />
+	<div id="box">
+		<p id="cpec" draggable="true" ondragstart="drag(event)">Spec</p>
+	</div>
+	<div id="box">
+		<p id="df" draggable="true" ondragstart="drag(event)">Deep Fly</p>
+	</div>
+	<div id="box">
+		<p id="hdf" draggable="true" ondragstart="drag(event)">Half - Deep Fly</p>
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<h3 style="display:none;color: orange;text-align: center;">Tips:复制到DDNet的时候记得删除~字符!</h3>
+</body>
+</html>
