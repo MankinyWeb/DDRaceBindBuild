@@ -2,13 +2,20 @@
 <head>
     <meta charset="utf-8" />
     <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
-    <script type="text/javascript">
+    <script>
 	var bind = "bind \"~\"";
 	$(document).ready(function(){
   		$("h1").fadeIn("show");
 		$("h3").fadeIn("show");
 		$("h4").fadeIn("show");
   	});
+	function show(){
+		var data = "";
+		for(var i=0;i<bind.length;i++){
+			if(bind[i] != '~')data += bind[i];
+		}
+		document.getElementById("showBind").innerHTML = data;
+	}
 	function add(nedadd,iskey){
 		if(iskey){
 			var data = document.getElementById("showBind").innerHTML;
@@ -16,15 +23,16 @@
 			bind = "bind "+nedadd+last;
 			document.getElementById("showBind").innerHTML = bind;
 		}else{
-		var data = document.getElementById("showBind").innerHTML;
+		var data = bind;
 		var pos = data.indexOf("~");
 		if(pos == -1){
 			var pos = data.indexOf(";");
 		}
 		var first = data.slice(0,pos);
 		var last = data.slice(pos+1);
+		//alert(last);
 		bind = first + nedadd + last;
-		document.getElementById("showBind").innerHTML = bind;
+		show();
 		}
 	}
 	function allowDrop(ev){
@@ -79,26 +87,25 @@
 		}
 		if(data == "df"){
 			bind = "bind " + prompt("输入DF按键") + " \"bind mouse1 \\\" +fire;+toggle cl_dummy_hammer 1 0\\\"\""
-			document.getElementById("showBind").innerHTML = bind;
+			show();
 			isfast = true;
 			nextTog = true;
 		}
 		if(data == "hdf"){
 			bind = "bind " + prompt("输入HDF按键") + " \"bind mouse1 \\\" +toggle cl_dummy_hammer 1 0\\\"\""
-			document.getElementById("showBind").innerHTML = bind;
+			show();
 			isfast = true;
 			nextTog = true;
 		}
 		if(data == "cpec"){
 			bind = "bind " + prompt("输入按键") + " say /spec"
-			document.getElementById("showBind").innerHTML = bind;
+			show();
 			isfast = true;
 			nextTog = true;
 		}
 		//alert(ev.dataTransfer.getData("Text"));
 		if(isfast == false)add(data,iskey);
 	}
-       	
     </script>
 	<style>#box {width:70px;height:50px;padding:10px;border:3px solid #aaaaaa;margin:10px;float:left;}</style>
 </head>
@@ -107,7 +114,7 @@
     <h1 style="display:none;color: orange;text-align: center;">Bind Builder for DDRaceNetWork.</h1>
 	<h3 style="display:none;color: orange;text-align: center;">Manki Studio.</h3>
 	<div ondrop="drop(event)" ondragover="allowDrop(event)">
-		<h4 id="showBind" style="color: red;text-align: center;">bind "~"</h4>
+		<h4 id="showBind" style="color: red;text-align: center;">bind ""</h4>
 	</div>
 	<div id="box">
 		<p id="key" draggable="true" ondragstart="drag(event)">触发按键</p>
