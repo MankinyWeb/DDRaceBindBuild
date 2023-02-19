@@ -44,6 +44,7 @@
 		needadd = ev.target.id;
 	}
 	nextTog = true;
+	var qt = 0;
 	function drop(ev){
 		ev.preventDefault();
 		var data = needadd;
@@ -64,6 +65,13 @@
 			data = "+toggle ~ "+prompt("第1个参数") + " " + prompt("第2个参数") + ";";
 			nextTog = false;
 		}
+		if(data == "dh"){
+			data = "cl_dummy_hammer "+prompt("开为1，关为0");
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = false;
+		}
 		if(data == "emo"){
 			data = "emote "+prompt("输入表情编号（编号请查看https://wiki.ddnet.org/images/a/ae/Emotes.png?20211006060742）");
 			if(nextTog){
@@ -80,6 +88,23 @@
 		}
 		if(data == "auto"){
 			data = prompt("自定义:");
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
+		if(data == "qt"){
+			data = "";
+			if(qt > 7){
+				alert("禁止套娃！");
+				return ;
+			}
+			qt = qt * 2 + 1;
+			for(var i=0;i<qt;i++){
+				data += '\\';
+			}
+			data += "\"";
+			data = "bind " + prompt("输入要触发的键") +" " +data+" "+data+"~";
 			if(nextTog){
 				data+=";~";
 			}
@@ -107,7 +132,20 @@
 		if(isfast == false)add(data,iskey);
 	}
     </script>
-	<style>#box {width:70px;height:50px;padding:10px;border:3px solid #aaaaaa;margin:10px;float:left;}</style>
+	<style>#box {width:70px;height:50px;padding:10px;border:3px solid #aaaaaa;margin:10px;float:left; border-radius: 25px;background: #aaaacc;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+	#boxauto{
+		 border-radius: 50px 20px;
+		 width:70px;height:50px;padding:10px;border:3px solid #aaaaaa;margin:10px;float:left; background: #aaaacc;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+	p{
+		text-align: center;
+		text-shadow: 2px 3px 2px #aaaaaa;
+	}
+	h1
+	{
+		text-shadow: 2px 3px 2px #aaaaaa;
+	}
+	</style>
 </head>
 <html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
 <body style="background-color:#d0e4fe;">
@@ -128,8 +166,14 @@
 	<div id="box">
 		<p id="zfz" draggable="true" ondragstart="drag(event)">显示自己的辅助线</p>
 	</div>
+		<div id="box">
+		<p id="qt" draggable="true" ondragstart="drag(event)">嵌套</p>
+	</div>
 	<div id="box">
 		<p id="tog" draggable="true" ondragstart="drag(event)">切换参数值</p>
+	</div>
+	<div id="box">
+		<p id="dh" draggable="true" ondragstart="drag(event)">分身锤</p>
 	</div>
 	
 	<div id="box">
@@ -143,14 +187,20 @@
 	<h3 style="display:none;color: orange;text-align: center;">快捷Bind（会覆盖当前Bind）</h3>
 	<br />
 	<br />
-	<div id="box">
+	<div id="boxauto">
 		<p id="cpec" draggable="true" ondragstart="drag(event)">Spec</p>
 	</div>
-	<div id="box">
+	<div id="boxauto">
 		<p id="df" draggable="true" ondragstart="drag(event)">Deep Fly</p>
 	</div>
-	<div id="box">
+	<div id="boxauto">
 		<p id="hdf" draggable="true" ondragstart="drag(event)">Half - Deep Fly</p>
 	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<h3 style="display:none;color: orange;text-align: center;">Tips:复制到DDNet的时候记得删除~字符!</h3>
 </body>
 </html>
