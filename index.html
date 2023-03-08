@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <script type="text/javascript" src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
     <script>
-	var bind = "bind \"~\"";
+	var bind = "bind \";\"";
 	$(document).ready(function(){
   		$("h1").fadeIn("show");
 		$("h3").fadeIn("show");
@@ -18,7 +18,7 @@
 	}
 	function add(nedadd,iskey){
 		if(iskey){
-			var data = document.getElementById("showBind").innerHTML;
+			var data = bind;
 			var last = data.slice(4);
 			bind = "bind "+nedadd+last;
 			document.getElementById("showBind").innerHTML = bind;
@@ -32,6 +32,8 @@
 		var last = data.slice(pos+1);
 		//alert(last);
 		bind = first + nedadd + last;
+		//alert(last);
+		//alert(pos);
 		show();
 		}
 	}
@@ -93,6 +95,20 @@
 			}
 			nextTog = true;
 		}
+		if(data == "fire"){
+			data = "+fire";
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
+		if(data == "hook"){
+			data = "+hook";
+			if(nextTog){
+				data+=";~";
+			}
+			nextTog = true;
+		}
 		if(data == "qt"){
 			data = "";
 			if(qt > 7){
@@ -122,6 +138,12 @@
 			isfast = true;
 			nextTog = true;
 		}
+		if(data == "nf"){
+			bind = "bind " + prompt("输入HDF按键") + "\"bind mouse1 +fire\""
+			show();
+			isfast = true;
+			nextTog = true;
+		}
 		if(data == "cpec"){
 			bind = "bind " + prompt("输入按键") + " say /spec"
 			show();
@@ -129,7 +151,10 @@
 			nextTog = true;
 		}
 		//alert(ev.dataTransfer.getData("Text"));
-		if(isfast == false)add(data,iskey);
+		if(isfast == false){
+			add(data,iskey);
+			iskey = false;
+		}
 	}
     </script>
 	<style>#box {width:70px;height:50px;padding:10px;border:3px solid #aaaaaa;margin:10px;float:left; border-radius: 25px;background: #aaaacc;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
@@ -173,7 +198,13 @@
 		<p id="tog" draggable="true" ondragstart="drag(event)">切换参数值</p>
 	</div>
 	<div id="box">
-		<p id="dh" draggable="true" ondragstart="drag(event)">分身锤</p>
+		<p id="dh" draggable="true" ondragstart="drag(event)">分身HF</p>
+	</div>
+	<div id="box">
+		<p id="fire" draggable="true" ondragstart="drag(event)">本体开火</p>
+	</div>
+	<div id="box">
+		<p id="hook" draggable="true" ondragstart="drag(event)">本体钩</p>
 	</div>
 	
 	<div id="box">
@@ -196,11 +227,14 @@
 	<div id="boxauto">
 		<p id="hdf" draggable="true" ondragstart="drag(event)">Half - Deep Fly</p>
 	</div>
+	<div id="boxauto">
+		<p id="nf" draggable="true" ondragstart="drag(event)">Normal Hammer</p>
+	</div>
 	<br />
 	<br />
 	<br />
 	<br />
 	<br />
-	<h3 style="display:none;color: orange;text-align: center;">Tips:复制到DDNet的时候记得删除~字符!</h3>
+	<h3 style="display:none;color: orange;text-align: center;">不会操作？<a href="录制_2023_03_08_21_12_17_388.mp4">点击此处查看</a>演示视频</h3>
 </body>
 </html>
